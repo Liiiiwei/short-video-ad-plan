@@ -11,7 +11,6 @@ import pathlib, shutil
     "客戶資料表.html": "client-form.html",
     "腳本檢查表.html": "script-checklist.html",
     "常見問答.html": "faq.html",
-    "名單回饋表.xlsx": "lead-feedback.xlsx",
 }
 
 def 原檔名(名稱):
