@@ -1,0 +1,1165 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>短影音＋廣告名單方案｜合作對齊文件</title>
+    <style>
+      :root {
+        /* 介面底色與墨色（冷調、科技感） */
+        --bg: #eef1f6;
+        --paper: #ffffff;
+        --ink: #0f1419;
+        --ink-2: #1f2933;
+        --sub: #5a6573;
+        --faint: #98a2b3;
+        --line: #e7eaf0;
+        --line-2: #d8dde7;
+        /* 招牌強調色：電光藍（單色、不用漸層） */
+        --accent: #2f6bff;
+        --accent-2: #1b4fd8;
+        --accent-soft: #e9f0ff;
+        /* 語意色（低彩度、扁平） */
+        --blue: #2f6bff;
+        --blue-bg: #eaf1ff;
+        --amber: #b45309;
+        --amber-bg: #fdf1df;
+        --green: #0f9d6b;
+        --green-bg: #e6f6ee;
+        --indigo: #6366f1;
+        /* 相容舊變數（內聯樣式仍引用） */
+        --card: var(--paper);
+        --canvas: var(--bg);
+        /* 字體：本機無襯線＋等寬，無外部相依、無襯線 */
+        --sans:
+          "PingFang TC", "Helvetica Neue", "Segoe UI", "Noto Sans TC",
+          "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
+        --mono-font:
+          "SFMono-Regular", ui-monospace, "JetBrains Mono", Menlo, Consolas,
+          "Roboto Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-size: 15.5px;
+      }
+      .wrap {
+        max-width: 920px;
+        margin: 40px auto;
+        background: var(--paper);
+        border: 1px solid var(--line-2);
+        box-shadow: 0 1px 2px rgba(15, 20, 25, 0.04);
+        padding: 0 72px 80px;
+        position: relative;
+        counter-reset: sec;
+      }
+      /* 頂部電光藍細線（載入時由左掃入） */
+      .wrap::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 3px;
+        background: var(--accent);
+        transform-origin: left;
+      }
+      header.top {
+        padding: 54px 0 28px;
+        margin: 0;
+        border-bottom: 1px solid var(--line-2);
+      }
+      header.top .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 16px;
+        font-family: var(--mono-font);
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      header.top .eyebrow::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        background: var(--accent);
+        display: inline-block;
+      }
+      header.top h1 {
+        margin: 0 0 18px;
+        font-family: var(--sans);
+        font-weight: 800;
+        font-size: 37px;
+        line-height: 1.18;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+      }
+      header.top .meta {
+        font-family: var(--mono-font);
+        font-size: 12.5px;
+        color: var(--sub);
+        line-height: 1.95;
+      }
+      header.top .meta code {
+        font-family: var(--mono-font);
+        color: var(--accent-2);
+        background: var(--accent-soft);
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+      .pdf-btn {
+        position: fixed;
+        top: 22px;
+        right: 22px;
+        z-index: 50;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        color: #fff;
+        background: var(--ink);
+        border: 1px solid var(--ink);
+        border-radius: 7px;
+        padding: 9px 16px;
+        cursor: pointer;
+        box-shadow: 0 4px 14px -6px rgba(15, 20, 25, 0.5);
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      .pdf-btn:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      .pdf-btn:active {
+        transform: translateY(0);
+      }
+      .pdf-btn svg {
+        display: block;
+      }
+      .src-note {
+        background: #f3f6fb;
+        border-left: 3px solid var(--accent);
+        border-radius: 0 4px 4px 0;
+        padding: 15px 20px;
+        margin: 24px 0 8px;
+        font-size: 13.5px;
+        line-height: 1.85;
+        color: var(--sub);
+      }
+      .src-note b {
+        color: var(--accent-2);
+        font-weight: 700;
+      }
+      nav.toc {
+        background: transparent;
+        border-top: 1px solid var(--line-2);
+        border-bottom: 1px solid var(--line-2);
+        padding: 22px 0;
+        margin: 30px 0 4px;
+      }
+      nav.toc strong {
+        display: block;
+        margin-bottom: 16px;
+        color: var(--accent);
+        font-family: var(--mono-font);
+        font-size: 11.5px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      nav.toc .toc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 2px 18px;
+      }
+      nav.toc a {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        color: var(--ink-2);
+        text-decoration: none;
+        font-size: 14px;
+        padding: 7px 0;
+        border-bottom: 1px solid transparent;
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+      }
+      nav.toc a:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+      nav.toc a .n {
+        flex: none;
+        font-family: var(--mono-font);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+      }
+      section {
+        counter-increment: sec;
+        background: transparent;
+        border: none;
+        border-top: 1px solid var(--line);
+        border-radius: 0;
+        padding: 44px 0 0;
+        margin: 0;
+      }
+      section:first-of-type {
+        border-top: none;
+        padding-top: 34px;
+      }
+      h2 {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        font-family: var(--sans);
+        font-weight: 800;
+        font-size: 23px;
+        line-height: 1.25;
+        letter-spacing: -0.015em;
+        margin: 0 0 20px;
+        padding-bottom: 0;
+        border-bottom: none;
+        color: var(--ink);
+      }
+      h2::before {
+        content: counter(sec, decimal-leading-zero);
+        font-family: var(--mono-font);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent-2);
+        background: var(--accent-soft);
+        padding: 3px 8px;
+        border-radius: 5px;
+        letter-spacing: 0.02em;
+        font-variant-numeric: tabular-nums;
+      }
+      h2 .tag {
+        margin-left: auto;
+        align-self: center;
+        font-family: var(--mono-font);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--sub);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      h2 .tag::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-right: 7px;
+        background: var(--accent);
+        vertical-align: middle;
+      }
+      h3 {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 16.5px;
+        margin: 28px 0 10px;
+        padding-left: 12px;
+        border-left: 3px solid var(--accent);
+        color: var(--ink);
+      }
+      h3:first-of-type {
+        margin-top: 8px;
+      }
+      p {
+        margin: 10px 0;
+      }
+      .lead {
+        font-size: 16.5px;
+        color: var(--ink-2);
+      }
+      #conclusion .lead {
+        background: var(--accent-soft);
+        border-left: 3px solid var(--accent);
+        border-radius: 0 5px 5px 0;
+        padding: 16px 20px;
+        color: var(--ink-2);
+      }
+      .callout {
+        background: #f5f7fa;
+        border-left: 3px solid var(--faint);
+        border-radius: 0 4px 4px 0;
+        padding: 15px 20px;
+        margin: 18px 0;
+        font-size: 14.5px;
+      }
+      .callout.blue {
+        background: var(--blue-bg);
+        border-left-color: var(--blue);
+      }
+      .callout.amber {
+        background: var(--amber-bg);
+        border-left-color: var(--amber);
+        color: #6b4410;
+      }
+      .callout.green {
+        background: var(--green-bg);
+        border-left-color: var(--green);
+      }
+      .callout b {
+        color: inherit;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18px 0;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 11px 16px 11px 0;
+        border: none;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+      thead th {
+        font-family: var(--mono-font);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 11.5px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        border-bottom: 2px solid var(--ink);
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+      tbody tr:hover {
+        background: #f5f8ff;
+      }
+      td.num {
+        width: 30px;
+        text-align: left;
+        font-family: var(--mono-font);
+        font-weight: 700;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+      }
+      td.cjk {
+        width: 54px;
+        text-align: left;
+        font-family: var(--mono-font);
+        color: #0e7490;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      .formula {
+        display: inline-block;
+        font-family: var(--mono-font);
+        font-size: 11.5px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: #eef1f6;
+        color: var(--accent-2);
+        white-space: nowrap;
+      }
+      .pin {
+        display: inline-block;
+        font-family: var(--mono-font);
+        font-size: 11.5px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: var(--accent-soft);
+        color: var(--accent-2);
+        border: 1px solid #cddcff;
+        font-weight: 600;
+      }
+      .dash {
+        color: var(--faint);
+      }
+      .quote {
+        font-family: var(--sans);
+        font-size: 14.5px;
+        background: #f5f7fa;
+        border-left: 2px solid var(--accent);
+        padding: 10px 0 10px 16px;
+        margin: 10px 0;
+        color: var(--ink-2);
+      }
+      .grp-badge {
+        font-family: var(--mono-font);
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        color: #fff;
+        border-radius: 4px;
+        padding: 3px 9px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .gA {
+        background: var(--blue);
+      }
+      .gB {
+        background: var(--indigo);
+      }
+      .gC {
+        background: var(--green);
+      }
+      .gE {
+        background: var(--amber);
+      }
+      ul.check {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0;
+      }
+      ul.check li {
+        padding: 9px 0 9px 28px;
+        position: relative;
+        border-bottom: 1px solid var(--line);
+        font-size: 14.5px;
+      }
+      ul.check li:last-child {
+        border-bottom: none;
+      }
+      ul.check li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 9px;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.5;
+      }
+      .setting-list {
+        margin: 10px 0;
+        padding-left: 0;
+        list-style: none;
+      }
+      .setting-list li {
+        padding: 9px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 14.5px;
+      }
+      .setting-list li:last-child {
+        border-bottom: none;
+      }
+      .setting-list b {
+        color: var(--ink);
+      }
+      footer {
+        text-align: left;
+        font-family: var(--mono-font);
+        color: var(--sub);
+        font-size: 11.5px;
+        letter-spacing: 0.02em;
+        margin-top: 48px;
+        padding-top: 22px;
+        border-top: 2px solid var(--ink);
+        line-height: 1.9;
+      }
+      footer code {
+        color: var(--accent-2);
+      }
+      /* 心智圖：架構樹（左→右分支，純 CSS、可列印） */
+      .mm {
+        margin: 14px 0 8px;
+        overflow-x: auto;
+      }
+      .mm ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 30px;
+        position: relative;
+      }
+      .mm > ul.mm-root {
+        padding-left: 0;
+      }
+      .mm li {
+        position: relative;
+        padding: 5px 0;
+      }
+      /* 垂直主幹：連到下一個兄弟節點 */
+      .mm ul li::before {
+        content: "";
+        position: absolute;
+        left: -16px;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        background: #d3d9e4;
+      }
+      .mm ul li:last-child::before {
+        height: 22px;
+      }
+      /* 水平分枝：連到節點 */
+      .mm ul li::after {
+        content: "";
+        position: absolute;
+        left: -16px;
+        top: 22px;
+        width: 16px;
+        height: 2px;
+        background: #d3d9e4;
+      }
+      /* 根層不畫連接線 */
+      .mm > ul.mm-root > li::before,
+      .mm > ul.mm-root > li::after {
+        display: none;
+      }
+      .mm .node {
+        display: inline-block;
+        background: var(--paper);
+        border: 1px solid var(--line-2);
+        border-radius: 6px;
+        padding: 7px 12px;
+        font-size: 13.5px;
+        line-height: 1.5;
+        vertical-align: top;
+      }
+      .mm .node b {
+        font-family: var(--sans);
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .mm .node .kw {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .mm .node .meta {
+        font-family: var(--mono-font);
+        color: var(--sub);
+        font-size: 11.5px;
+      }
+      .mm .node.root {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: #fff;
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .mm .node.cA {
+        border-left: 4px solid var(--blue);
+      }
+      .mm .node.cB {
+        border-left: 4px solid var(--indigo);
+      }
+      .mm .node.cE {
+        border-left: 4px dashed var(--amber);
+        background: var(--amber-bg);
+      }
+      .mm .node.leaf {
+        background: #f5f7fa;
+      }
+      /* 載入動效：僅螢幕、尊重 reduce-motion；列印不套用 */
+      @media screen and (prefers-reduced-motion: no-preference) {
+        .wrap::before {
+          animation: barIn 0.6s ease-out both;
+        }
+        header.top {
+          animation: riseIn 0.5s ease-out both;
+        }
+        section {
+          animation: riseIn 0.55s ease-out both;
+        }
+        section:nth-of-type(2) {
+          animation-delay: 0.05s;
+        }
+        section:nth-of-type(3) {
+          animation-delay: 0.1s;
+        }
+        section:nth-of-type(4) {
+          animation-delay: 0.15s;
+        }
+        section:nth-of-type(5) {
+          animation-delay: 0.2s;
+        }
+        section:nth-of-type(6) {
+          animation-delay: 0.25s;
+        }
+      }
+      @keyframes riseIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes barIn {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+        body {
+          background: #fff;
+          background-image: none;
+          font-size: 11.5pt;
+        }
+        .wrap {
+          max-width: 100%;
+          margin: 0;
+          padding: 0;
+          border: none;
+          box-shadow: none;
+        }
+        .wrap::before {
+          display: none;
+        }
+        nav.toc {
+          display: none;
+        }
+        section {
+          border-top: 1px solid #ccc;
+          padding-top: 22px;
+        }
+        section:first-of-type {
+          border-top: none;
+        }
+        h2,
+        h3 {
+          break-after: avoid;
+        }
+        table,
+        .callout,
+        .mm {
+          break-inside: avoid;
+        }
+        header.top {
+          border-bottom: 2px solid #000;
+          padding-top: 0;
+        }
+        a {
+          color: inherit;
+        }
+        .mm {
+          overflow: visible;
+        }
+      }
+      @media (max-width: 680px) {
+        .wrap {
+          max-width: 100%;
+          margin: 0;
+          padding: 0 22px 60px;
+          border: none;
+        }
+        header.top h1 {
+          font-size: 27px;
+        }
+        h2 {
+          font-size: 21px;
+        }
+        nav.toc .toc-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        th,
+        td {
+          padding: 9px 8px 9px 0;
+          font-size: 13px;
+        }
+        .pdf-btn {
+          top: auto;
+          bottom: 16px;
+          right: 16px;
+        }
+      }
+    </style>
+    <style>
+      /* 方案表首欄不斷行 */
+      #plans td:first-child {
+        white-space: nowrap;
+      }
+      /* 手機：寬表格改為表內橫向捲動，避免整頁溢出；隱藏浮動按鈕避免蓋住內文 */
+      @media (max-width: 680px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+        table:not(.form) th,
+        table:not(.form) td {
+          min-width: 84px;
+        }
+        table:not(.form) th.num,
+        table:not(.form) td.num {
+          min-width: 0;
+        }
+        table:not(.form) td:first-child:not(.num) {
+          white-space: nowrap;
+        }
+        table.form {
+          display: table;
+        }
+        .pdf-btn {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== 匯出 PDF 按鈕（固定右上；列印時自動隱藏） ===== -->
+    <button
+      class="pdf-btn no-print"
+      onclick="window.print()"
+      title="匯出 PDF（列印 → 另存為 PDF）"
+      aria-label="匯出 PDF"
+    >
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 3v12" />
+        <path d="M7 11l5 5 5-5" />
+        <path d="M5 21h14" />
+      </svg>
+      匯出 PDF
+    </button>
+
+    <div class="wrap">
+      <header class="top">
+        <p class="eyebrow">合作方案 · 夥伴對齊</p>
+        <h1>短影音＋廣告名單方案<br />合作對齊文件</h1>
+        <div class="meta">
+          對象：影片方（短影音製作）與廣告方（立崴）<br />
+          版本日期 2026-10-03　·　金額皆為未稅
+        </div>
+      </header>
+
+      <nav class="toc">
+        <strong>目錄</strong>
+        <div class="toc-grid">
+          <a href="#conclusion"><span class="n">01</span>合作方式</a>
+          <a href="#plans"><span class="n">02</span>三種方案</a>
+          <a href="#money"><span class="n">03</span>收款與分潤</a>
+          <a href="#roles"><span class="n">04</span>分工與流程</a>
+          <a href="#videos"><span class="n">05</span>影片怎麼配</a>
+          <a href="#rules"><span class="n">06</span>對客戶的說法</a>
+          <a href="#actions"><span class="n">07</span>待辦事項</a>
+        </div>
+      </nav>
+
+      <section id="conclusion">
+        <h2>合作方式 <span class="tag">摘要</span></h2>
+        <p class="lead">
+          在 20 支短影音 88,000 的方案上，加掛廣告服務，讓影片不只有觀看數，還能帶進詢問名單。A、B
+          兩個方案由影片方當客戶的唯一窗口並統一收款，立崴在後端操作廣告；C
+          方案由立崴直接對客戶。
+        </p>
+        <div class="callout green">
+          <b>影片方多賺的部分</b>：A、B 方案的廣告服務費分 20%；C
+          方案成交給一次性介紹費。
+        </div>
+        <div class="callout blue">
+          <b>能帶進名單的關鍵</b>：拍攝之前先決定要請觀眾做什麼動作，影片方再依腳本檢查表安排腳本。影片拍完才加廣告，效果會打折。
+        </div>
+        <div class="callout amber">
+          <b>共同底線</b>：三個方案都不對客戶承諾名單筆數，只承諾會做哪些事。
+        </div>
+      </section>
+
+      <section id="plans">
+        <h2>三種方案 <span class="tag">對客戶的內容與價格</span></h2>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>A 啟動版</th>
+              <th>B 名單版（主推）</th>
+              <th>C 全代操版</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>適合誰</b></td>
+              <td>想先試試看，之後自己操作廣告</td>
+              <td>想在三個月內有穩定的詢問來源</td>
+              <td>把廣告當成長期的獲客管道</td>
+            </tr>
+            <tr>
+              <td><b>期間</b></td>
+              <td>一次性，投放 30 天</td>
+              <td>3 個月</td>
+              <td>3 個月起，可續約</td>
+            </tr>
+            <tr>
+              <td><b>拍攝前</b></td>
+              <td>影片方套用腳本檢查表</td>
+              <td>同 A</td>
+              <td>同 A</td>
+            </tr>
+            <tr>
+              <td><b>建置</b></td>
+              <td>表單或 LINE 承接、廣告帳戶設定</td>
+              <td>同 A，表單加篩選問題，另附回覆話術</td>
+              <td>同 B，加客戶網頁的修改建議</td>
+            </tr>
+            <tr>
+              <td><b>投放</b></td>
+              <td>20 支影片測試，找出表現最好的幾支</td>
+              <td>測試、把預算集中到好的影片、對看過影片的人再投一次</td>
+              <td>同 B，依廣告數據提供下一批影片建議，可加 Google 搜尋廣告</td>
+            </tr>
+            <tr>
+              <td><b>成效回報</b></td>
+              <td>結案時一頁交接說明</td>
+              <td>即時看板，重大調整用訊息通知</td>
+              <td>即時看板，重大調整用訊息通知</td>
+            </tr>
+            <tr>
+              <td><b>廣告預算</b></td>
+              <td>30,000（30 天）</td>
+              <td>每月 30,000</td>
+              <td>每月 5 萬以上才適用</td>
+            </tr>
+            <tr>
+              <td><b>廣告服務費</b></td>
+              <td>廣告建置費 24,000（含 30 天操作，不另收操作費）</td>
+              <td>廣告建置費 15,000 ＋ 基本操作費 30,000（每月 10,000 × 3），共 45,000</td>
+              <td>廣告費每月 10 萬以下收基本操作費 18,000，超過以 18% 計</td>
+            </tr>
+            <tr>
+              <td><b>含影片總價</b></td>
+              <td>112,000</td>
+              <td>133,000</td>
+              <td>142,000 起</td>
+            </tr>
+          </tbody>
+        </table>
+        <ul class="check">
+          <li>廣告費由客戶直接儲值在廣告平台，不經過影片方和立崴。</li>
+          <li>C 的「142,000 起」＝影片 88,000 加上三個月基本操作費 54,000；廣告費超過每月 10 萬後，服務費以 18% 計算。</li>
+          <li>廣告建置費與基本操作費合稱廣告服務費，分潤以這個總額計算。</li>
+          <li>影片與廣告一起買不另外打折。</li>
+          <li>三個方案都沒有週報和月報。即時看板是一個網頁連結，客戶隨時能自己看廣告花費與名單數。</li>
+        </ul>
+      </section>
+
+      <section id="money">
+        <h2>收款與分潤 <span class="tag">誰收、誰拿多少</span></h2>
+        <h3>A、B 方案：影片方統一收款</h3>
+        <p>
+          影片方向客戶報總價並收款，客戶只會看到一張報價單、一個窗口。立崴再向影片方請款。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>方案</th>
+              <th>客戶付的廣告服務費</th>
+              <th>影片方留 20%</th>
+              <th>立崴請款</th>
+              <th>影片方總收入</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>A 啟動版</b></td>
+              <td>24,000</td>
+              <td>4,800</td>
+              <td>19,200</td>
+              <td>92,800</td>
+            </tr>
+            <tr>
+              <td><b>B 建置費（一次）</b></td><td>15,000</td><td>3,000</td><td>12,000</td><td class="dash">—</td></tr>
+            <tr><td><b>B 基本操作費（每月）</b></td><td>10,000</td><td>2,000</td><td>8,000</td><td class="dash">—</td>
+            </tr>
+            <tr>
+              <td><b>B 名單版（三個月合計）</b></td>
+              <td>45,000</td>
+              <td>9,000</td>
+              <td>36,000</td>
+              <td>97,000</td>
+            </tr>
+            <tr><td><b>A 結束後續 B（每月）</b></td><td>10,000</td><td>2,000</td><td>8,000</td><td class="dash">—</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>影片方總收入＝影片 88,000 加上廣告服務費的 20%。A 結束後續 B 只收基本操作費，不再收建置費；廣告費每月 30,000。</p>
+
+        <h3>C 方案：立崴直接對客戶</h3>
+        <p>
+          C 的預算大、需要頻繁溝通，所以分開處理：
+        </p>
+        <ul class="setting-list">
+          <li><b>影片方</b>：影片 88,000 照常自己報價、收款、拍攝交付，並把客戶介紹給立崴。</li>
+          <li><b>立崴</b>：廣告服務另外和客戶簽約、收款，之後廣告相關的溝通都由立崴直接對客戶。</li>
+          <li>
+            <b>介紹費</b>：成交後立崴給影片方一次性介紹費，為前三個月廣告服務費的
+            10%。以基本操作費每月 18,000 計算，介紹費至少 5,400。
+          </li>
+        </ul>
+      </section>
+
+      <section id="roles">
+        <h2>分工與流程 <span class="tag">A、B 方案</span></h2>
+        <table>
+          <thead>
+            <tr>
+              <th class="num">#</th>
+              <th>階段</th>
+              <th>影片方</th>
+              <th>立崴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">1</td>
+              <td><b>銷售與簽約</b></td>
+              <td>介紹方案、報價、簽約、收款</td>
+              <td>提供方案說明與常見問答</td>
+            </tr>
+            <tr>
+              <td class="num">2</td>
+              <td><b>收資料</b></td>
+              <td>請客戶填客戶資料表，並開通粉專與廣告帳戶權限</td>
+              <td>檢查資料與權限是否齊全</td>
+            </tr>
+            <tr>
+              <td class="num">3</td>
+              <td><b>拍攝前</b></td>
+              <td>依腳本檢查表安排腳本</td>
+              <td>確認請觀眾做的事與給的理由</td>
+            </tr>
+            <tr>
+              <td class="num">4</td>
+              <td><b>拍攝與交付</b></td>
+              <td>拍攝、剪輯、一次交付 20 支</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="num">5</td>
+              <td><b>建置</b></td>
+              <td>把回覆話術轉交客戶（B）</td>
+              <td>建表單或 LINE 承接、設定廣告帳戶、建即時看板</td>
+            </tr>
+            <tr>
+              <td class="num">6</td>
+              <td><b>投放期間</b></td>
+              <td>轉達客戶問題、提醒客戶填名單回饋表</td>
+              <td>操作廣告、調整預算、重大調整發訊息給影片方</td>
+            </tr>
+            <tr>
+              <td class="num">7</td>
+              <td><b>結束</b></td>
+              <td>轉交交接說明（A）、詢問是否續約或升級</td>
+              <td>寫交接說明（A）、提供續約建議</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>立崴不出面，改用四份文件</h3>
+        <ul class="setting-list">
+          <li>
+            <b>客戶資料表</b>：客戶填服務內容、服務地區、想收到哪種詢問、廣告預算，並交出帳戶權限。
+          </li>
+          <li>
+            <b>腳本檢查表</b>：告訴影片方哪幾支要講優惠或邀請、結尾要請觀眾做什麼。三個方案共用。
+          </li>
+          <li>
+            <b>常見問答</b>：客戶問到廣告的問題，影片方照著回；超出範圍的再轉給立崴。
+          </li>
+          <li>
+            <b>名單回饋表</b>：客戶標記每筆名單有沒有聯絡上、有沒有成交，立崴據此調整投放。
+          </li>
+        </ul>
+      </section>
+
+      <section id="videos">
+        <h2>影片怎麼配 <span class="tag">拍攝前先定</span></h2>
+        <h3>先定客戶要觀眾做什麼</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>客戶類型</th>
+              <th>請觀眾做的事</th>
+              <th>給觀眾的理由</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>接案設計師</b></td>
+              <td>填表單</td>
+              <td>免費估價、索取作品集</td>
+            </tr>
+            <tr>
+              <td><b>工地工程</b></td>
+              <td>加 LINE</td>
+              <td>傳現場照片，先做初步評估</td>
+            </tr>
+            <tr>
+              <td><b>會議場地</b></td>
+              <td>填表單</td>
+              <td>預約場勘、索取報價單</td>
+            </tr>
+            <tr>
+              <td><b>講師</b></td>
+              <td>填表單或加 LINE</td>
+              <td>講座報名、領取講義</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>20 支影片的分工</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>類型</th>
+              <th>支數</th>
+              <th>內容</th>
+              <th>結尾</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>建立信任</b></td>
+              <td>約 12 支</td>
+              <td>專業知識、施作或服務過程</td>
+              <td>不強推，留下印象即可</td>
+            </tr>
+            <tr>
+              <td><b>帶邀請</b></td>
+              <td>約 5 支</td>
+              <td>直接講可以找他做什麼、怎麼找</td>
+              <td>明確請觀眾填表單或加 LINE</td>
+            </tr>
+            <tr>
+              <td><b>見證</b></td>
+              <td>約 3 支</td>
+              <td>客戶回饋、完工或活動成果</td>
+              <td>帶到同一個邀請</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="rules">
+        <h2>對客戶的說法 <span class="tag">兩邊口徑一致</span></h2>
+        <ul class="check">
+          <li>不承諾名單筆數，這一點要寫進報價單。</li>
+          <li>建議在拍攝前簽約，影片才會照配比拍；拍完才加購也可以，方案與價格相同。</li>
+          <li>C 需要每月廣告預算 5 萬以上，不到的客戶請引導到 A 或 B。</li>
+          <li>B 只做 Meta 廣告、單一種詢問方式；要加 Google 搜尋廣告或多種目標，請升級到 C。</li>
+          <li>名單進來後由客戶自己回覆，回得越快越容易成交；B、C 會附回覆話術。</li>
+          <li>B 跑完三個月、預算長到每月 5 萬以上的客戶，建議升級 C。</li>
+        </ul>
+      </section>
+
+      <section id="actions">
+        <h2>待辦事項 <span class="tag">負責人／截止</span></h2>
+        <h3>要兩人一起定的事</h3>
+        <table>
+          <thead>
+            <tr>
+              <th class="num">#</th>
+              <th>項目</th>
+              <th>立崴的建議</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">1</td>
+              <td>立崴向影片方請款的時間</td>
+              <td>A 與 B 的建置費在廣告開始前請款；B 的基本操作費每月月初請款</td>
+            </tr>
+            <tr>
+              <td class="num">2</td>
+              <td>B 方案客戶中途喊停怎麼算</td>
+              <td>建置費不退；基本操作費已開始的月份照收，未開始的不收</td>
+            </tr>
+            <tr>
+              <td class="num">3</td>
+              <td>C 介紹費的給付時間</td>
+              <td>客戶付清前三個月廣告服務費後一次給</td>
+            </tr>
+            <tr>
+              <td class="num">4</td>
+              <td>客戶緊急狀況（帳戶被停用、扣款失敗）的聯絡方式</td>
+              <td>影片方收到後直接訊息立崴，立崴當日回覆處理方式</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>各自要準備的東西</h3>
+        <table>
+          <thead>
+            <tr>
+              <th class="num">#</th>
+              <th>項目</th>
+              <th>負責人</th>
+              <th>截止</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">1</td>
+              <td>約時間對齊本文件，定案上面四件事</td>
+              <td>立崴、影片方</td>
+              <td>待約</td>
+            </tr>
+            <tr>
+              <td class="num">2</td>
+              <td>客戶資料表、腳本檢查表、常見問答、名單回饋表</td>
+              <td>立崴</td>
+              <td>首位客戶簽約前</td>
+            </tr>
+            <tr>
+              <td class="num">3</td>
+              <td>即時看板範本</td>
+              <td>立崴</td>
+              <td>首位客戶廣告開始前</td>
+            </tr>
+            <tr>
+              <td class="num">4</td>
+              <td>報價單加入三種方案與「不承諾名單筆數」</td>
+              <td>影片方</td>
+              <td>首位客戶報價前</td>
+            </tr>
+            <tr>
+              <td class="num">5</td>
+              <td>挑一位現有客戶先試跑 B 方案</td>
+              <td>影片方</td>
+              <td>對齊後決定</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer>Liwei ad agency　·　2026-10-03</footer>
+    </div>
+  </body>
+</html>
