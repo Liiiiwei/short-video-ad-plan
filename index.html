@@ -223,12 +223,18 @@
       }
       #plans .plan ul {
         font-size: 18px;
+        margin-top: 10px;
+        padding-top: 12px;
       }
       #plans .plan li {
         grid-template-columns: 4.2em minmax(0, 1fr);
+        line-height: 1.5;
       }
       #plans .plan li + li {
-        margin-top: 12px;
+        margin-top: 11px;
+      }
+      #plans .plan .num {
+        line-height: 1.35;
       }
       #plans .note {
         font-size: 15px;
@@ -415,11 +421,12 @@
           <span class="for">想先試，之後自己操作</span>
           <b class="num">112,000</b>
           <ul>
-            <li><b>組成</b><span>影片 88,000 ＋ 建置費 24,000</span></li>
+            <li><b>報價項目</b><span>影片 88,000 ＋ 建置費 24,000</span></li>
+            <li><b>已有影片</b><span>只付 24,000</span></li>
             <li><b>期間</b><span>30 天</span></li>
             <li><b>廣告費</b><span>30,000</span></li>
             <li><b>內容</b><span>建立詢問管道，測試 20 支，結束時交接</span></li>
-            <li><b>對客戶</b><span>你</span></li>
+            <li><b>客戶窗口</b><span>你</span></li>
           </ul>
         </article>
         <article class="plan main">
@@ -428,18 +435,19 @@
           <b class="num">139,000</b>
           <ul>
             <li>
-              <b>組成</b
+              <b>報價項目</b
               ><span
                 >影片 88,000 ＋ 建置費 15,000 ＋ 操作費每月 12,000 × 3</span
               >
             </li>
+            <li><b>已有影片</b><span>只付 51,000</span></li>
             <li><b>期間</b><span>3 個月</span></li>
             <li><b>廣告費</b><span>每月 30,000</span></li>
             <li>
               <b>內容</b
               ><span>A 的內容，加表單篩選題、回覆話術、再次投放、即時看板</span>
             </li>
-            <li><b>對客戶</b><span>你</span></li>
+            <li><b>客戶窗口</b><span>你</span></li>
           </ul>
         </article>
         <article class="plan">
@@ -448,12 +456,13 @@
           <b class="num">142,000 起</b>
           <ul>
             <li>
-              <b>組成</b
+              <b>報價項目</b
               ><span
                 >影片 88,000 ＋ 操作費每月 18,000；廣告費超過 10 萬以 18%
                 計</span
               >
             </li>
+            <li><b>已有影片</b><span>每月 18,000 起</span></li>
             <li><b>期間</b><span>3 個月起</span></li>
             <li><b>廣告費</b><span>每月 5 萬以上</span></li>
             <li>
@@ -462,7 +471,7 @@
                 >B 的內容，加網頁修改建議、下一批影片建議、Google 搜尋廣告</span
               >
             </li>
-            <li><b>對客戶</b><span>我</span></li>
+            <li><b>客戶窗口</b><span>你和我</span></li>
           </ul>
         </article>
       </div>
@@ -503,7 +512,7 @@
             <li>有網站（C 加 Google 搜尋廣告時需要）</li>
           </ul>
           <div class="gap" id="videos">
-        <h3>20 支影片的配比</h3>
+        <h3>20 支影片的建議配比</h3>
         <table>
           <tbody>
             <tr>
