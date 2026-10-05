@@ -13,1251 +13,620 @@
     />
     <style>
       :root {
-        /* 紙本分鏡表的配色：暖紙底、墨黑、單一朱紅強調 */
-        --paper: #f4efe6;
-        --paper-2: #ebe4d6;
+        --desk: #e9e3d8;
+        --paper: #f6f2ea;
+        --card: #fffdf8;
         --ink: #1a1714;
-        --ink-2: #3a342d;
-        --sub: #6b6257;
-        --line: #d6ccba;
+        --muted: #6b6257;
+        --line: #ddd4c4;
         --accent: #d9482b;
-        --accent-deep: #a8331c;
-        --ochre: #d9a441;
-        --white: #fffdf8;
-        --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
-        --sans: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-        --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      }
+      @page {
+        size: A4 landscape;
+        margin: 0;
       }
       * {
         box-sizing: border-box;
       }
-      html {
-        scroll-behavior: smooth;
-      }
       body {
         margin: 0;
-        background: var(--paper);
+        background: var(--desk);
         color: var(--ink);
-        font-family: var(--sans);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "PingFang TC",
+          "Microsoft JhengHei", "Noto Sans TC", sans-serif;
         font-size: 16px;
         line-height: 1.75;
-        -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
-      /* 紙張顆粒 */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.35;
-        background-image: radial-gradient(
-          rgba(26, 23, 20, 0.07) 1px,
-          transparent 1px
-        );
-        background-size: 4px 4px;
-        z-index: 0;
-      }
-      .shell {
-        position: relative;
-        z-index: 1;
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 0 28px;
-      }
-      a {
-        color: inherit;
-      }
-
-      /* ===== 頂部導覽 ===== */
-      nav.top {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        background: rgba(244, 239, 230, 0.92);
-        backdrop-filter: blur(6px);
-        border-bottom: 1px solid var(--line);
-      }
-      nav.top .shell {
-        display: flex;
-        align-items: center;
-        gap: 22px;
-        height: 54px;
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-      nav.top .brand {
-        font-family: var(--mono);
-        font-size: 12px;
-        letter-spacing: 0.14em;
-        color: var(--accent-deep);
-        font-weight: 700;
-        margin-right: auto;
-      }
-      nav.top a {
-        font-size: 14px;
-        text-decoration: none;
-        color: var(--ink-2);
-        padding: 4px 0;
-        border-bottom: 2px solid transparent;
-      }
-      nav.top a:hover {
-        border-bottom-color: var(--accent);
-      }
-
-      /* ===== 首屏 ===== */
-      header.hero {
-        padding: 72px 0 56px;
-        border-bottom: 2px solid var(--ink);
-      }
-      .slate {
-        display: inline-block;
-        font-family: var(--mono);
-        font-size: 12px;
-        letter-spacing: 0.16em;
-        color: var(--white);
-        background: var(--ink);
-        padding: 5px 12px;
-        margin-bottom: 26px;
-      }
-      .hero h1 {
-        font-family: var(--serif);
+      h1,
+      h2,
+      h3,
+      .num {
+        font-family: "Noto Serif TC", "Songti TC", serif;
         font-weight: 900;
-        font-size: clamp(38px, 7.4vw, 88px);
-        line-height: 1.22;
-        letter-spacing: -0.01em;
-        margin: 0 0 26px;
       }
-      .hero h1 em {
+
+      /* 一頁 = A4 橫式 */
+      .page {
+        font-size: 19px;
+        position: relative;
+        width: 297mm;
+        height: 210mm;
+        margin: 24px auto;
+        padding: 15mm 20mm 20mm;
+        background: var(--paper);
+        box-shadow: 0 2px 14px rgba(26, 23, 20, 0.14);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .page.center {
+        justify-content: center;
+      }
+      .foot {
+        position: absolute;
+        left: 20mm;
+        right: 20mm;
+        bottom: 9mm;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: 46px;
+        line-height: 1.5;
+      }
+      h1 em {
         font-style: normal;
         color: var(--accent);
       }
-      .hero p.lead {
-        max-width: 640px;
-        font-size: 18px;
-        color: var(--ink-2);
-        margin: 0 0 36px;
-      }
-      .earn {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        border: 2px solid var(--ink);
-        background: var(--white);
-      }
-      .earn div {
-        padding: 22px 24px;
-        border-right: 1px solid var(--line);
-      }
-      .earn div:last-child {
-        border-right: none;
-      }
-      .earn .k {
-        font-size: 13px;
-        color: var(--sub);
-      }
-      .earn .v {
-        font-family: var(--serif);
-        font-weight: 900;
-        font-size: clamp(28px, 4vw, 42px);
-        line-height: 1.2;
-        color: var(--accent);
-      }
-      .earn .n {
-        font-size: 13px;
-        color: var(--ink-2);
-      }
-
-      /* ===== 段落 ===== */
-      section {
-        padding: 68px 0 20px;
-      }
-      .sec-head {
-        display: flex;
-        align-items: baseline;
-        gap: 16px;
-        margin-bottom: 30px;
-      }
-      .sec-head .no {
-        font-family: var(--mono);
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--accent-deep);
-        letter-spacing: 0.1em;
-      }
-      .sec-head h2 {
-        font-family: var(--serif);
-        font-weight: 900;
-        font-size: clamp(26px, 3.6vw, 38px);
-        line-height: 1.25;
+      .lead {
         margin: 0;
+        font-size: 18px;
+        color: var(--muted);
       }
-      .sec-note {
-        max-width: 680px;
-        color: var(--ink-2);
-        margin: -14px 0 28px;
+      h2 {
+        margin: 0 0 28px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--ink);
+        font-size: 34px;
+        line-height: 1.6;
       }
-
-      /* ===== 三件事 ===== */
-      .three {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0;
-        border-top: 2px solid var(--ink);
+      h3 {
+        margin: 0 0 10px;
+        font-size: 22px;
+        line-height: 1.6;
       }
-      .three div {
-        padding: 22px 24px 22px 0;
-        border-bottom: 1px solid var(--line);
+      p {
+        margin: 0 0 12px;
       }
-      .three b {
-        display: block;
-        font-family: var(--serif);
-        font-size: 21px;
-        margin-bottom: 6px;
-      }
-      .three span {
-        font-size: 15px;
-        color: var(--ink-2);
+      .note {
+        margin: 18px 0 0;
+        font-size: 14px;
+        color: var(--muted);
       }
 
-      /* ===== 方案卡 ===== */
-      .plans {
+      .cols {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 18px;
-        align-items: stretch;
       }
-      .plan {
-        background: var(--white);
+      .earn {
+        margin-top: 32px;
+      }
+      .earn div,
+      .plan,
+      .docs a {
+        background: var(--card);
         border: 1px solid var(--line);
-        padding: 26px 24px 24px;
-        display: flex;
-        flex-direction: column;
+        padding: 20px 22px;
+      }
+      .earn span,
+      .plan .for,
+      .docs span {
+        display: block;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .num {
+        display: block;
+        font-size: 40px;
+        line-height: 1.6;
+      }
+      .earn .num {
+        color: var(--accent);
       }
       .plan.main {
         border: 2px solid var(--ink);
-        box-shadow: 8px 8px 0 var(--accent);
-      }
-      .plan .tagline {
-        font-family: var(--mono);
-        font-size: 12px;
-        letter-spacing: 0.1em;
-        color: var(--sub);
-      }
-      .plan.main .tagline {
-        color: var(--accent-deep);
-        font-weight: 700;
       }
       .plan h3 {
-        font-family: var(--serif);
-        font-weight: 900;
-        font-size: 26px;
-        margin: 6px 0 4px;
-      }
-      .plan .who {
-        font-size: 15px;
-        color: var(--ink-2);
-        min-height: 54px;
-      }
-      .plan .price {
-        font-family: var(--serif);
-        font-weight: 900;
-        font-size: 38px;
-        line-height: 1.36;
-        margin: 14px 0 2px;
-      }
-      .plan .price small {
-        font-family: var(--sans);
-        font-weight: 400;
-        font-size: 14px;
-        color: var(--sub);
-      }
-      .plan .price-note {
-        font-size: 13px;
-        color: var(--sub);
-        margin-bottom: 16px;
-      }
-      .plan dl {
         margin: 0;
+      }
+      .plan ul {
+        margin: 14px 0 0;
+        padding: 14px 0 0;
         border-top: 1px solid var(--line);
-        flex: 1;
+        list-style: none;
+        font-size: 16px;
       }
-      .plan dl div {
+      .plan li {
         display: grid;
-        grid-template-columns: 78px 1fr;
-        gap: 10px;
-        padding: 10px 0;
-        border-bottom: 1px solid var(--line);
-        font-size: 14.5px;
+        grid-template-columns: 4em minmax(0, 1fr);
+        gap: 8px;
       }
-      .plan dt {
-        color: var(--sub);
+      .plan li + li {
+        margin-top: 6px;
       }
-      .plan dd {
-        margin: 0;
-      }
-      .plan .you {
-        margin-top: 18px;
-        background: var(--ink);
-        color: var(--white);
-        padding: 12px 16px;
-        font-size: 14.5px;
-      }
-      .plan .you b {
-        color: var(--ochre);
-        font-size: 17px;
+      .plan li b {
+        font-weight: 400;
+        color: var(--muted);
       }
 
-      /* ===== 分潤長條 ===== */
-      .split {
-        margin-bottom: 26px;
-      }
-      .split .label {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 6px 16px;
-        font-size: 15px;
-        margin-bottom: 8px;
-      }
-      .split .label b {
-        font-family: var(--serif);
-        font-size: 19px;
-      }
-      .bar {
-        display: flex;
-        border: 2px solid var(--ink);
-        min-height: 62px;
-      }
-      .bar .me {
-        flex: 0 0 26%;
-        background: var(--accent);
-        color: var(--white);
-        padding: 9px 14px;
-      }
-      .bar .li {
-        flex: 1;
-        background: var(--white);
-        padding: 9px 14px;
-      }
-      .bar small {
-        display: block;
-        font-size: 12.5px;
-        opacity: 0.9;
-      }
-      .bar b {
-        font-family: var(--serif);
-        font-size: 20px;
-      }
-      .cnote {
-        border-left: 4px solid var(--ochre);
-        background: var(--paper-2);
-        padding: 16px 20px;
-        font-size: 15px;
-      }
-
-      /* ===== 流程 ===== */
-      .flow {
-        border-top: 2px solid var(--ink);
-      }
-      .flow .row {
-        display: grid;
-        grid-template-columns: 54px 130px 1fr 1fr;
-        gap: 18px;
-        padding: 16px 0;
-        border-bottom: 1px solid var(--line);
-        font-size: 15px;
-      }
-      .flow .row.headrow {
-        font-family: var(--mono);
-        font-size: 12px;
-        letter-spacing: 0.1em;
-        color: var(--sub);
-        padding: 10px 0;
-      }
-      .flow .i {
-        font-family: var(--serif);
-        font-weight: 900;
-        font-size: 24px;
-        line-height: 1.2;
-        color: var(--accent);
-      }
-      .flow .st {
-        font-weight: 700;
-      }
-      .flow .muted {
-        color: var(--sub);
-      }
-      .flow .who-tag {
-        display: none;
-        font-family: var(--mono);
-        font-size: 12px;
-        color: var(--sub);
-      }
-
-      /* ===== 底片條 ===== */
-      .strip {
-        background: var(--ink);
-        padding: 18px 16px;
-        position: relative;
-      }
-      .strip::before,
-      .strip::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 8px;
-        background-image: repeating-linear-gradient(
-          90deg,
-          var(--paper) 0 10px,
-          transparent 10px 22px
-        );
-        opacity: 0.85;
-      }
-      .strip::before {
-        top: 5px;
-      }
-      .strip::after {
-        bottom: 5px;
-      }
-      .frames {
-        display: grid;
-        grid-template-columns: repeat(20, 1fr);
-        gap: 6px;
-        padding: 8px 0;
-      }
-      .frames span {
-        aspect-ratio: 9 / 14;
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-start;
-        padding: 4px 3px;
-        font-family: var(--mono);
-        font-size: 12px;
-        font-weight: 700;
-        background: var(--paper);
-        color: var(--ink);
-      }
-      .frames .f-inv {
-        background: var(--accent);
-        color: var(--white);
-      }
-      .frames .f-prf {
-        background: var(--ochre);
-      }
-      .legend {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-        margin-top: 22px;
-      }
-      .legend div {
-        border-top: 6px solid var(--line);
-        padding-top: 12px;
-        font-size: 15px;
-      }
-      .legend .l-trust {
-        border-top-color: var(--ink);
-      }
-      .legend .l-inv {
-        border-top-color: var(--accent);
-      }
-      .legend .l-prf {
-        border-top-color: var(--ochre);
-      }
-      .legend b {
-        display: block;
-        font-family: var(--serif);
-        font-size: 20px;
-      }
-
-      /* ===== 表格 ===== */
-      .tbl {
+      table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 34px;
-        font-size: 15px;
       }
-      .tbl th,
-      .tbl td {
-        text-align: left;
-        padding: 12px 14px 12px 0;
+      th,
+      td {
+        padding: 16px 20px 16px 0;
         border-bottom: 1px solid var(--line);
+        text-align: left;
         vertical-align: top;
       }
-      .tbl th {
+      th {
         font-size: 13px;
-        color: var(--sub);
+        font-weight: 400;
+        color: var(--muted);
+      }
+      td:first-child {
         font-weight: 600;
-        border-bottom: 2px solid var(--ink);
-      }
-
-      /* ===== 口徑 ===== */
-      .rules {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0 36px;
-        border-top: 2px solid var(--ink);
-        counter-reset: r;
-      }
-      .rules li {
-        counter-increment: r;
-        display: grid;
-        grid-template-columns: 34px 1fr;
-        padding: 16px 0;
-        border-bottom: 1px solid var(--line);
-        font-size: 15.5px;
-      }
-      .rules li::before {
-        content: counter(r);
-        font-family: var(--serif);
-        font-weight: 900;
-        font-size: 20px;
-        color: var(--accent);
-        line-height: 1.4;
-      }
-
-      /* ===== 文件卡 ===== */
-      .docs {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-      }
-      .doc {
-        display: block;
-        text-decoration: none;
-        background: var(--white);
-        border: 1px solid var(--line);
-        padding: 22px 24px;
-        transition:
-          transform 0.15s,
-          box-shadow 0.15s,
-          border-color 0.15s;
-      }
-      .doc:hover {
-        transform: translate(-3px, -3px);
-        box-shadow: 6px 6px 0 var(--ink);
-        border-color: var(--ink);
-      }
-      .doc .when {
-        font-family: var(--mono);
-        font-size: 12px;
-        letter-spacing: 0.08em;
-        color: var(--accent-deep);
-      }
-      .doc b {
-        display: block;
-        font-family: var(--serif);
-        font-size: 22px;
-        margin: 4px 0 6px;
-      }
-      .doc span {
-        font-size: 14.5px;
-        color: var(--ink-2);
-      }
-      .doc .open {
-        display: block;
-        margin-top: 12px;
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--accent-deep);
-      }
-
-      /* ===== 待定 ===== */
-      .todo {
-        background: var(--ink);
-        color: var(--white);
-        padding: 40px 36px;
-        margin-top: 10px;
-      }
-      .todo h3 {
-        font-family: var(--serif);
-        font-weight: 900;
-        font-size: 26px;
-        margin: 0 0 18px;
-      }
-      .todo ol {
-        margin: 0;
-        padding-left: 22px;
-      }
-      .todo li {
-        padding: 9px 0;
-        border-bottom: 1px solid rgba(255, 253, 248, 0.18);
-        font-size: 15.5px;
-      }
-      .todo li span {
-        display: block;
-        color: var(--ochre);
-        font-size: 14px;
-      }
-      footer {
-        padding: 44px 0 60px;
-        font-family: var(--mono);
-        font-size: 12px;
-        letter-spacing: 0.06em;
-        color: var(--sub);
-      }
-
-      /* ===== 載入動效 ===== */
-      @media screen and (prefers-reduced-motion: no-preference) {
-        .slate,
-        .hero h1,
-        .hero p.lead,
-        .earn {
-          animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-        }
-        .hero h1 {
-          animation-delay: 0.08s;
-        }
-        .hero p.lead {
-          animation-delay: 0.18s;
-        }
-        .earn {
-          animation-delay: 0.3s;
-        }
-      }
-      @keyframes rise {
-        from {
-          opacity: 0;
-          transform: translateY(18px);
-        }
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
-
-      /* ===== 手機 ===== */
-      @media (max-width: 820px) {
-        .shell {
-          padding: 0 18px;
-        }
-        header.hero {
-          padding: 44px 0 40px;
-        }
-        .hero p.lead {
-          font-size: 16.5px;
-        }
-        .earn,
-        .three,
-        .plans,
-        .legend,
-        .rules,
-        .docs {
-          grid-template-columns: 1fr;
-        }
-        .earn div {
-          border-right: none;
-          border-bottom: 1px solid var(--line);
-        }
-        .earn div:last-child {
-          border-bottom: none;
-        }
-        .plan .who {
-          min-height: 0;
-        }
-        .plan.main {
-          box-shadow: 5px 5px 0 var(--accent);
-        }
-        section {
-          padding: 52px 0 12px;
-        }
-        .sec-head {
-          flex-direction: column;
-          gap: 4px;
-        }
-        .bar .me {
-          flex-basis: 40%;
-        }
-        .flow .row {
-          grid-template-columns: 34px 1fr;
-          gap: 4px 12px;
-        }
-        .flow .row.headrow {
-          display: none;
-        }
-        .flow .row > div:nth-child(n + 3) {
-          grid-column: 2;
-        }
-        .flow .who-tag {
-          display: block;
-        }
-        .frames {
-          grid-template-columns: repeat(10, 1fr);
-        }
-        .tbl {
-          font-size: 14px;
-        }
-        .todo {
-          padding: 30px 22px;
-        }
-      }
-      @media print {
-        nav.top {
-          display: none;
-        }
-        body::before {
-          display: none;
-        }
-        section,
-        .plan,
-        .doc {
-          break-inside: avoid;
-        }
-      }
-    </style>
-    <style>
-      /* ===== 版面收緊：減少留白、併排資訊 ===== */
-      section {
-        padding: 44px 0 6px;
-      }
-      .sec-head {
-        margin-bottom: 20px;
-      }
-      .sec-note {
-        max-width: none;
-        margin: -8px 0 20px;
-      }
-      header.hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-        column-gap: 44px;
-        align-items: start;
-        padding: 44px 0 40px;
-      }
-      header.hero .slate {
-        grid-column: 1;
-        justify-self: start;
-        margin-bottom: 18px;
-      }
-      header.hero h1 {
-        grid-column: 1;
-        font-size: clamp(34px, 4.8vw, 58px);
-        margin-bottom: 18px;
-      }
-      header.hero p.lead {
-        grid-column: 1;
-        margin-bottom: 0;
-        font-size: 17px;
-      }
-      header.hero .earn {
-        grid-column: 2;
-        grid-row: 1 / span 3;
-        grid-template-columns: 1fr;
-        align-self: stretch;
-      }
-      .earn div {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: center;
-        column-gap: 16px;
-        padding: 16px 22px;
-        border-right: none;
-        border-bottom: 1px solid var(--line);
-      }
-      .earn div:last-child {
-        border-bottom: none;
-      }
-      .earn .k,
-      .earn .n {
-        grid-column: 1;
-      }
-      .earn .k {
-        font-size: 15px;
-        font-weight: 700;
-        color: var(--ink);
-      }
-      .earn .v {
-        grid-column: 2;
-        grid-row: 1 / span 2;
-        font-size: clamp(26px, 3vw, 36px);
-      }
-      header.hero {
-        grid-template-rows: auto auto 1fr;
-      }
-      header.hero p.lead {
-        align-self: start;
-      }
-      #money .bar .me {
-        flex-basis: 40%;
-      }
-      /* 首屏收入面板：內層不要吃到外層的格線與邊框 */
-      .earn > div > div {
-        display: block;
-        padding: 0;
-        border: none;
-      }
-      header.hero h1 {
-        line-height: 1.32;
-      }
-      .earn .v { line-height: 1.5; }
-      .sec-head h2 {
-        line-height: 1.45;
-      }
-      /* 方案卡：列高平均分配，避免卡片底部空一塊 */
-      .plan dl {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-      }
-      .plan dl div {
-        flex: 1 1 auto;
-        align-items: start;
-      }
-      .tbl td:first-child {
         white-space: nowrap;
       }
-      .three {
-        gap: 14px;
-        border-top: none;
+      td.you {
+        color: var(--accent);
+        font-weight: 600;
       }
-      .three div {
-        background: var(--white);
-        border: 1px solid var(--line);
-        border-top: 3px solid var(--ink);
-        padding: 18px 20px;
+      td.nowrap {
+        white-space: nowrap;
       }
-      .plan {
-        padding: 22px 22px 20px;
-      }
-      .plan .who {
-        min-height: 0;
-        margin: 4px 0 0;
-      }
-      .plan .price {
-        margin-top: 10px;
-      }
-      .plan .price-note {
-        min-height: 42px;
-        margin-bottom: 12px;
-      }
-      .plan dl div {
-        padding: 8px 0;
-      }
-      #money {
+
+      .two {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        column-gap: 28px;
+        gap: 40px;
       }
-      #money .sec-head,
-      #money .cnote {
-        grid-column: 1 / -1;
+      ul.list {
+        margin: 0;
+        padding-left: 1.2em;
       }
-      #money .split {
-        margin-bottom: 20px;
+      ul.list li + li {
+        margin-top: 8px;
       }
-      #money .split .label {
-        flex-direction: column;
-        gap: 0;
-      }
-      .flow .row {
-        grid-template-columns: 40px 120px 1fr 1fr;
-        padding: 11px 0;
-      }
-      #videos {
+       .fit {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-        column-gap: 36px;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 40px;
       }
-      #videos .sec-head,
-      #videos .sec-note,
-      #videos .strip {
-        grid-column: 1 / -1;
+      .fit table {
+        font-size: 16px;
       }
-      #videos .legend {
-        grid-template-columns: 1fr;
-        gap: 14px;
-        margin-top: 22px;
-        align-content: start;
+      .fit td {
+        padding: 9px 16px 9px 0;
       }
-      #videos .tbl {
-        margin-top: 22px;
-        align-self: start;
+      #plans .cols {
+        flex: 1;
       }
-      .rules li {
-        padding: 12px 0;
+      #plans .plan ul {
+        font-size: 18px;
       }
-      .docs {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
+      #plans .plan li {
+        grid-template-columns: 4.2em minmax(0, 1fr);
       }
-      .doc {
-        padding: 18px 18px;
+      #plans .plan li + li {
+        margin-top: 12px;
       }
-      .doc b {
+      #plans .note {
+        font-size: 15px;
+      }
+      #videos td:first-child {
+        padding-right: 12px;
+      }
+      #money td,
+      #next td {
         font-size: 20px;
       }
-      .todo {
-        padding: 30px 32px;
+      #money p,
+      #flow li,
+      #rules li {
+        font-size: 20px;
       }
-      .todo ol {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0 40px;
+      .gap {
+        margin-top: 40px;
       }
-      footer {
-        padding: 30px 0 44px;
+
+      .docs a {
+        display: block;
+        color: var(--ink);
+        text-decoration: none;
       }
-      @media (max-width: 820px) {
-        header.hero {
-          grid-template-columns: minmax(0, 1fr);
-          padding: 34px 0 32px;
+      .docs b {
+        display: block;
+      }
+
+      .pdf-btn {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 10;
+        padding: 9px 16px;
+        border: none;
+        background: var(--ink);
+        color: #fff;
+        font: inherit;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      /* 螢幕太窄時改成直向捲動，不維持橫式比例 */
+      @media screen and (max-width: 1180px) {
+        .page {
+          font-size: 16px;
+          width: auto;
+          height: auto;
+          margin: 12px;
+          padding: 28px 20px 56px;
+          overflow: visible;
         }
-        header.hero .earn {
-          grid-column: 1;
-          grid-row: auto;
+        .foot {
+          left: 20px;
+          right: 20px;
+          bottom: 18px;
+        }
+        h1 {
+          font-size: 30px;
+        }
+        h2 {
+          font-size: 24px;
+        }
+        .earn {
           margin-top: 24px;
         }
-        #money,
-        #videos,
-        .docs,
-        .todo ol {
+        .num {
+          font-size: 30px;
+        }
+        h3 {
+          font-size: 19px;
+        }
+        th,
+        td {
+          padding: 12px 12px 12px 0;
+        }
+      }
+      @media screen and (max-width: 720px) {
+        .cols,
+        .two,
+        .fit {
           grid-template-columns: minmax(0, 1fr);
         }
-        .plan .price-note {
-          min-height: 0;
+        .two {
+          gap: 24px;
         }
-        .flow .row {
-          grid-template-columns: 34px 1fr;
+        th,
+        td {
+          padding-right: 10px;
+          font-size: 15px;
         }
-        section {
-          padding: 38px 0 6px;
+        .pdf-btn {
+          display: none;
+        }
+      }
+
+      @media print {
+        body {
+          background: none;
+        }
+        .page {
+          margin: 0;
+          box-shadow: none;
+          break-after: page;
+        }
+        .page:last-child {
+          break-after: auto;
+        }
+        .pdf-btn {
+          display: none;
         }
       }
     </style>
   </head>
   <body>
-    <nav class="top">
-      <div class="shell">
-        <span class="brand">合作總覽</span>
-        <a href="#plans">三種方案</a>
-        <a href="#money">收款與分潤</a>
-        <a href="#flow">分工</a>
-        <a href="#videos">影片配比</a>
-        <a href="#rules">對客戶的說法</a>
-        <a href="#docs">三份文件</a>
+    <button class="pdf-btn" onclick="window.print()">匯出 PDF</button>
+
+    <section class="page center">
+      <h1>20 支短影音，加上<em>廣告名單</em>服務</h1>
+      <p class="lead">
+        A、B
+        方案由你對客戶、統一收款，我在後端操作廣告。每成交一案，你多一筆收入。
+      </p>
+      <div class="cols earn">
+        <div>
+          <span>賣出 A 啟動版</span>
+          <b class="num">+4,800</b>
+        </div>
+        <div>
+          <span>賣出 B 名單版</span>
+          <b class="num">+9,000</b>
+        </div>
+        <div>
+          <span>轉介 C 全代操版</span>
+          <b class="num">+5,400 起</b>
+        </div>
       </div>
-    </nav>
+      <div class="two gap" id="flow">
+        <div>
+          <h3>你負責</h3>
+          <ul class="list">
+            <li>介紹方案、報價、簽約、收款</li>
+            <li>陪客戶填客戶資料表，開通粉專與廣告帳戶權限</li>
+            <li>依腳本檢查表安排腳本，拍攝並交付 20 支</li>
+            <li>廣告期間轉達客戶問題</li>
+          </ul>
+        </div>
+        <div>
+          <h3>我負責</h3>
+          <ul class="list">
+            <li>拍攝前確認請觀眾做的事與給的理由</li>
+            <li>建立詢問管道、設定廣告帳戶與即時看板</li>
+            <li>開跑前檢查 20 支影片，結尾有邀請的不到 5 支就先補結尾卡</li>
+            <li>操作廣告、調整預算，重大調整以訊息通知你</li>
+            <li>結束時提供交接說明與續約建議</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot">
+        <span>Liwei ad agency　·　2026-10-03</span><span>1 / 5</span>
+      </div>
+    </section>
 
-    <div class="shell">
-      <header class="hero">
-        <span class="slate">短影音 × 廣告名單方案</span>
-        <h1>20 支短影音，<br />加上<em>廣告名單</em>服務</h1>
-        <p class="lead">
-          A、B 方案的客戶窗口與收款維持由你負責，廣告由我在後端操作；每成交一案，你多一筆收入。
-        </p>
-        <div class="earn">
-          <div>
-            <div class="k">賣出 A 啟動版</div>
-            <div class="v">+4,800</div>
-            <div class="n">廣告服務費的 20%</div>
-          </div>
-          <div>
-            <div class="k">賣出 B 名單版</div>
-            <div class="v">+9,000</div>
-            <div class="n">廣告服務費的 20%，三個月合計</div>
-          </div>
-          <div>
-            <div class="k">轉介 C 全代操版成交</div>
-            <div class="v">+5,400 起</div>
-            <div class="n">一次性介紹費</div>
-          </div>
-        </div>
-      </header>
+    <section class="page" id="plans">
+      <h2>三種方案</h2>
+      <div class="cols">
+        <article class="plan">
+          <h3>A 啟動版</h3>
+          <span class="for">想先試，之後自己操作</span>
+          <b class="num">112,000</b>
+          <ul>
+            <li><b>組成</b><span>影片 88,000 ＋ 建置費 24,000</span></li>
+            <li><b>期間</b><span>30 天</span></li>
+            <li><b>廣告費</b><span>30,000</span></li>
+            <li><b>內容</b><span>建立詢問管道，測試 20 支，結束時交接</span></li>
+            <li><b>對客戶</b><span>你</span></li>
+          </ul>
+        </article>
+        <article class="plan main">
+          <h3>B 名單版（主推）</h3>
+          <span class="for">想要三個月穩定的詢問</span>
+          <b class="num">133,000</b>
+          <ul>
+            <li>
+              <b>組成</b
+              ><span
+                >影片 88,000 ＋ 建置費 15,000 ＋ 操作費每月 10,000 × 3</span
+              >
+            </li>
+            <li><b>期間</b><span>3 個月</span></li>
+            <li><b>廣告費</b><span>每月 30,000</span></li>
+            <li>
+              <b>內容</b
+              ><span>A 的內容，加表單篩選題、回覆話術、再次投放、即時看板</span>
+            </li>
+            <li><b>對客戶</b><span>你</span></li>
+          </ul>
+        </article>
+        <article class="plan">
+          <h3>C 全代操版</h3>
+          <span class="for">把廣告當長期客源</span>
+          <b class="num">142,000 起</b>
+          <ul>
+            <li>
+              <b>組成</b
+              ><span
+                >影片 88,000 ＋ 操作費每月 18,000；廣告費超過 10 萬以 18%
+                計</span
+              >
+            </li>
+            <li><b>期間</b><span>3 個月起</span></li>
+            <li><b>廣告費</b><span>每月 5 萬以上</span></li>
+            <li>
+              <b>內容</b
+              ><span
+                >B 的內容，加網頁修改建議、下一批影片建議、Google 搜尋廣告</span
+              >
+            </li>
+            <li><b>對客戶</b><span>我</span></li>
+          </ul>
+        </article>
+      </div>
+      <p class="note">
+        金額未稅。廣告費另計，雙方不代墊。沒有廣告帳號的客戶另收帳號設定費 8,000。不承諾名單筆數，沒有週報月報，合購不打折。
+      </p>
+      <div class="foot">
+        <span>Liwei ad agency　·　2026-10-03</span><span>2 / 5</span>
+      </div>
+    </section>
 
-      <section id="how">
-        <div class="sec-head">
-          <span class="no">01</span>
-          <h2>合作方式</h2>
+    <section class="page" id="fit">
+      <h2>跑廣告的客戶前提</h2>
+      <div class="fit">
+        <div>
+          <h3>必要前提（不符合就不接）</h3>
+          <table>
+            <tbody>
+              <tr><td>前期費用</td><td>簽約時先付廣告建置費（A 24,000、B 15,000）；還沒有企業管理平台與廣告帳號的客戶，另收帳號設定費 8,000</td></tr>
+              <tr><td>廣告費</td><td>A 30,000；B 每月 30,000；C 每月 5 萬以上。客戶自己刷卡或先儲值，雙方不代墊</td></tr>
+              <tr><td>帳號</td><td>有粉絲專頁與 Instagram 帳號，並開放管理權限</td></tr>
+              <tr><td>影片</td><td>直式、有字幕、無浮水印；約 5 支結尾有邀請</td></tr>
+              <tr><td>詢問管道</td><td>表單、LINE、網站預約擇一</td></tr>
+              <tr><td>回覆</td><td>有固定的人回覆名單，最慢隔天</td></tr>
+              <tr><td>主推服務</td><td>只主推一項，服務地區明確，說得出收費範圍</td></tr>
+              <tr><td>廣告規範</td><td>不保證效果，不點名觀眾的個人狀況</td></tr>
+              <tr><td>期待</td><td>接受不承諾名單筆數，前兩週為測試期</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="three">
-          <div>
-            <b>你是唯一窗口</b>
-            <span>報價、簽約、轉達問題都由你處理。我不直接接觸 A、B 方案的客戶，改用三份文件支援你。</span>
-          </div>
-          <div>
-            <b>由你統一收款</b>
-            <span>你向客戶報總價並收款，我再向你請款：A 一次 19,200；B 建置 12,000，之後每月 8,000。</span>
-          </div>
-          <div>
-            <b>拍攝前完成規劃</b>
-            <span>簽約後先填客戶資料表，確定要請觀眾做什麼、給什麼理由，你再依腳本檢查表安排腳本。</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="plans">
-        <div class="sec-head">
-          <span class="no">02</span>
-          <h2>三種方案</h2>
-        </div>
-        <p class="sec-note">
-          金額皆為未稅。廣告費另計，你我都不代墊。預設由客戶用自己的廣告帳戶刷卡付給平台；開不了帳戶的客戶，改為先把整期廣告費儲值給我，由我開發票，用完為止，結束時餘額退還。影片與廣告合購不另折扣。三個方案皆不承諾名單筆數，也不提供週報與月報。下面的廣告建置費與基本操作費，合稱廣告服務費。
-        </p>
-        <div class="plans">
-          <article class="plan">
-            <span class="tagline">入門</span>
-            <h3>A 啟動版</h3>
-            <p class="who">想先小規模嘗試，之後自行操作廣告的客戶。</p>
-            <div class="price">112,000</div>
-            <div class="price-note">影片 88,000 ＋ 廣告建置費 24,000（含 30 天操作，不另收操作費）</div>
-            <dl>
-              <div><dt>期間</dt><dd>一次性，投放 30 天</dd></div>
-              <div><dt>拍攝前</dt><dd>你依腳本檢查表安排</dd></div>
-              <div><dt>廣告</dt><dd>建立表單或 LINE，20 支全數測試，找出表現最好的幾支</dd></div>
-              <div><dt>成效回報</dt><dd>結束時提供一頁交接說明</dd></div>
-              <div><dt>廣告預算</dt><dd>30,000（30 天）</dd></div>
-              <div><dt>誰對客戶</dt><dd>你</dd></div>
-            </dl>
-            <div class="you">你的分潤 <b>4,800</b></div>
-          </article>
-
-          <article class="plan main">
-            <span class="tagline">主推</span>
-            <h3>B 名單版</h3>
-            <p class="who">希望三個月內有穩定詢問來源的客戶。</p>
-            <div class="price">133,000</div>
-            <div class="price-note">影片 88,000 ＋ 廣告建置費 15,000 ＋ 基本操作費每月 10,000 × 3</div>
-            <dl>
-              <div><dt>期間</dt><dd>3 個月</dd></div>
-              <div><dt>拍攝前</dt><dd>你依腳本檢查表安排</dd></div>
-              <div><dt>廣告</dt><dd>含 A 全部內容，另加表單篩選問題、回覆話術，並對看過影片的人再次投放</dd></div>
-              <div><dt>成效回報</dt><dd>提供即時看板連結，客戶可自行查看花費與名單數；重大調整以訊息通知</dd></div>
-              <div><dt>廣告預算</dt><dd>每月 30,000</dd></div>
-              <div><dt>誰對客戶</dt><dd>你</dd></div>
-            </dl>
-            <div class="you">你的分潤 <b>9,000</b></div>
-          </article>
-
-          <article class="plan">
-            <span class="tagline">長期</span>
-            <h3>C 全代操版</h3>
-            <p class="who">把廣告作為長期客源的客戶。</p>
-            <div class="price">142,000 <small>起</small></div>
-            <div class="price-note">影片 88,000 ＋ 廣告服務費：廣告費每月 10 萬以下收基本操作費 18,000，超過以 18% 計。三個月至少 54,000</div>
-            <dl>
-              <div><dt>期間</dt><dd>3 個月起，可續約</dd></div>
-              <div><dt>拍攝前</dt><dd>你依腳本檢查表安排</dd></div>
-              <div><dt>廣告</dt><dd>含 B 全部內容，另加客戶網頁修改建議、依廣告數據提供下一批影片建議，可加投 Google 搜尋廣告</dd></div>
-              <div><dt>成效回報</dt><dd>提供即時看板連結；重大調整以訊息通知</dd></div>
-              <div><dt>廣告預算</dt><dd>每月 5 萬以上才適用</dd></div>
-              <div><dt>誰對客戶</dt><dd>我</dd></div>
-            </dl>
-            <div class="you">介紹費 <b>5,400 起</b></div>
-          </article>
-        </div>
-      </section>
-
-      <section id="money">
-        <div class="sec-head">
-          <span class="no">03</span>
-          <h2>廣告服務費分配</h2>
-        </div>
-        <div class="split">
-          <div class="label">
-            <b>A 啟動版　24,000</b>
-            <span>你的總收入：影片 88,000 ＋ 4,800 ＝ 92,800</span>
-          </div>
-          <div class="bar">
-            <div class="me"><small>你留 20%</small><b>4,800</b></div>
-            <div class="li"><small>我向你請款</small><b>19,200</b></div>
-          </div>
-        </div>
-        <div class="split">
-          <div class="label">
-            <b>B 名單版　45,000</b>
-            <span>你的總收入：影片 88,000 ＋ 9,000 ＝ 97,000</span>
-          </div>
-          <div class="bar">
-            <div class="me"><small>你留 20%</small><b>9,000</b></div>
-            <div class="li"><small>我向你請款：建置 12,000 ＋ 每月 8,000 × 3</small><b>36,000</b></div>
-          </div>
-        </div>
-        <div class="cnote">
-          <b>A 結束後續 B。</b>只收基本操作費每月 10,000，不再收建置費；廣告費每月 30,000。你留 2,000，我向你請款 8,000。
-        </div>
-        <div class="cnote">
-          <b>C 方案分開處理。</b>影片 88,000
-          由你照常報價、收款、交付。廣告服務由我另行與客戶簽約收款，後續廣告事務由我直接對客戶。成交後我支付你一次性介紹費：前三個月廣告服務費的
-          10%，以基本操作費每月 18,000 計算，至少 5,400。
-        </div>
-      </section>
-
-      <section id="flow">
-        <div class="sec-head">
-          <span class="no">04</span>
-          <h2>A、B 方案分工</h2>
-        </div>
-        <div class="flow">
-          <div class="row headrow">
-            <div></div>
-            <div>階段</div>
-            <div>你</div>
-            <div>我</div>
-          </div>
-          <div class="row">
-            <div class="i">1</div>
-            <div class="st">銷售與簽約</div>
-            <div><span class="who-tag">你</span>介紹方案、報價、簽約、收款</div>
-            <div><span class="who-tag">我</span>提供方案說明與常見問答</div>
-          </div>
-          <div class="row">
-            <div class="i">2</div>
-            <div class="st">收資料</div>
-            <div><span class="who-tag">你</span>陪同客戶填寫客戶資料表，並請客戶開通粉專與廣告帳戶權限</div>
-            <div><span class="who-tag">我</span>確認資料與權限齊全</div>
-          </div>
-          <div class="row">
-            <div class="i">3</div>
-            <div class="st">拍攝前</div>
-            <div><span class="who-tag">你</span>依腳本檢查表安排腳本</div>
-            <div><span class="who-tag">我</span>確認請觀眾做的事與給的理由</div>
-          </div>
-          <div class="row">
-            <div class="i">4</div>
-            <div class="st">拍攝與交付</div>
-            <div><span class="who-tag">你</span>拍攝、剪輯，20 支一次交付</div>
-            <div class="muted"><span class="who-tag">我</span>無</div>
-          </div>
-          <div class="row">
-            <div class="i">5</div>
-            <div class="st">廣告開始前</div>
-            <div><span class="who-tag">你</span>將回覆話術轉交客戶（B）</div>
-            <div><span class="who-tag">我</span>建立表單或 LINE、設定廣告帳戶、建置即時看板</div>
-          </div>
-          <div class="row">
-            <div class="i">6</div>
-            <div class="st">廣告期間</div>
-            <div><span class="who-tag">你</span>轉達客戶問題</div>
-            <div><span class="who-tag">我</span>操作廣告、調整預算，重大調整以訊息通知你</div>
-          </div>
-          <div class="row">
-            <div class="i">7</div>
-            <div class="st">結束</div>
-            <div><span class="who-tag">你</span>轉交交接說明（A），確認客戶是否續約或升級</div>
-            <div><span class="who-tag">我</span>撰寫交接說明（A），提供續約建議</div>
-          </div>
-        </div>
-      </section>
-
-      <section id="videos">
-        <div class="sec-head">
-          <span class="no">05</span>
-          <h2>20 支影片的配比</h2>
-        </div>
-        <p class="sec-note">20 支分成三種用途，其中約 5 支要直接邀請觀眾詢問。</p>
-        <div class="strip">
-          <div class="frames">
-            <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span>
-            <span>06</span><span>07</span><span>08</span><span>09</span><span>10</span>
-            <span>11</span><span>12</span>
-            <span class="f-inv">13</span><span class="f-inv">14</span><span class="f-inv">15</span>
-            <span class="f-inv">16</span><span class="f-inv">17</span>
-            <span class="f-prf">18</span><span class="f-prf">19</span><span class="f-prf">20</span>
-          </div>
-        </div>
-        <div class="legend">
-          <div class="l-trust">
-            <b>約 12 支　建立信任</b>
-            專業知識、施作或服務過程，不做推銷。
-          </div>
-          <div class="l-inv">
-            <b>約 5 支　帶邀請</b>
-            說明客戶提供的服務與聯絡方式，結尾請觀眾填表單或加 LINE。
-          </div>
-          <div class="l-prf">
-            <b>約 3 支　見證</b>
-            客戶回饋、完工或活動成果，結尾帶同一個邀請。
-          </div>
-        </div>
-
-        <table class="tbl">
-          <thead>
-            <tr>
-              <th>客戶類型</th>
-              <th>請觀眾做的事</th>
-              <th>給觀眾的理由</th>
-            </tr>
-          </thead>
+        <div>
+          <h3>建議前提（不符合效果會打折）</h3>
+          <ul class="list">
+            <li>一個案子至少收 1 萬以上</li>
+            <li>未來一到三個月接得下新案</li>
+            <li>至少三個完工案例或客戶回饋</li>
+            <li>本人或客戶願意出鏡</li>
+            <li>有網站（C 加 Google 搜尋廣告時需要）</li>
+          </ul>
+          <div class="gap" id="videos">
+        <h3>20 支影片的配比</h3>
+        <table>
           <tbody>
-            <tr><td><b>接案設計師</b></td><td>填表單</td><td>免費估價、索取作品集</td></tr>
-            <tr><td><b>工地工程</b></td><td>加 LINE</td><td>傳現場照片，先做初步評估</td></tr>
-            <tr><td><b>會議場地</b></td><td>填表單</td><td>預約場勘、索取報價單</td></tr>
-            <tr><td><b>講師</b></td><td>填表單或加 LINE</td><td>講座報名、領取講義</td></tr>
+            <tr>
+              <td>約 12 支　建立信任</td>
+              <td>專業知識、施作或服務過程，不做推銷</td>
+            </tr>
+            <tr>
+              <td>約 5 支　帶邀請</td>
+              <td>結尾請觀眾填表單或加 LINE</td>
+            </tr>
+            <tr>
+              <td>約 3 支　見證</td>
+              <td>客戶回饋或完工成果，結尾帶同一個邀請</td>
+            </tr>
           </tbody>
         </table>
-      </section>
-
-      <section id="rules">
-        <div class="sec-head">
-          <span class="no">06</span>
-          <h2>對客戶的六項統一說法</h2>
+      </div>
         </div>
-        <ul class="rules">
-          <li>不承諾名單筆數，並寫入報價單。</li>
-          <li>建議在拍攝前簽約，影片才會照配比拍；拍完才加購也可以，方案與價格相同。</li>
-          <li>C 需每月廣告預算 5 萬以上，預算不到的客戶請建議選 A 或 B。</li>
-          <li>B 只做 Meta 廣告（Facebook 與 Instagram），且只設定一種詢問方式；要加 Google 搜尋廣告請選 C。</li>
-          <li>名單由客戶自行回覆，回覆越快越容易成交。</li>
-          <li>B 執行滿三個月、預算達每月 5 萬以上的客戶，建議升級 C。</li>
-        </ul>
-      </section>
+      </div>
+      <div class="foot"><span>Liwei ad agency　·　2026-10-03</span><span>3 / 5</span></div>
+    </section>
 
-      <section id="docs">
-        <div class="sec-head">
-          <span class="no">07</span>
-          <h2>三份配套文件</h2>
+    <section class="page" id="money">
+      <h2>收款與分潤</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>方案</th>
+            <th>客戶付的廣告服務費</th>
+            <th>你留 20%</th>
+            <th>我向你請款</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A 啟動版</td>
+            <td>24,000</td>
+            <td class="you">4,800</td>
+            <td>19,200</td>
+          </tr>
+          <tr>
+            <td>B 名單版</td>
+            <td>45,000</td>
+            <td class="you">9,000</td>
+            <td>36,000（建置 12,000 ＋ 每月 8,000 × 3）</td>
+          </tr>
+          <tr>
+            <td>A 結束後續 B</td>
+            <td>每月 10,000</td>
+            <td class="you">每月 2,000</td>
+            <td>每月 8,000</td>
+          </tr>
+          <tr>
+            <td>帳號設定費</td>
+            <td>8,000（已有帳號不收）</td>
+            <td>不分潤</td>
+            <td>8,000</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="two gap">
+        <div>
+          <h3>A、B 方案</h3>
+          <p>你向客戶報總價並收款，我再向你請款。客戶只有一個窗口。</p>
         </div>
-        <div class="docs">
-          <a class="doc" href="client-form.html">
-            <span class="when">簽約後、拍攝前</span>
-            <b>客戶資料表</b>
-            <span>你陪同客戶填寫：服務內容、服務地區、希望收到的詢問類型、廣告預算、帳號權限。</span>
-            <span class="open">打開文件 →</span>
-          </a>
-          <a class="doc" href="script-checklist.html">
-            <span class="when">安排腳本與拍攝時</span>
-            <b>腳本檢查表</b>
-            <span>20 支的配比、每支的檢查項目、四類客戶的結尾說法範例。</span>
-            <span class="open">打開文件 →</span>
-          </a>
-          <a class="doc" href="faq.html">
-            <span class="when">客戶問到廣告時</span>
-            <b>常見問答</b>
-            <span>共 20 題，可直接依內容回覆；另列六種需轉交給我的情況。</span>
-            <span class="open">打開文件 →</span>
-          </a>
+        <div>
+          <h3>C 方案</h3>
+          <p>
+            影片 88,000
+            由你照常收款，廣告由我另外和客戶簽約。成交後我給你一次性介紹費：前三個月廣告服務費的
+            10%，至少 5,400。
+          </p>
         </div>
-      </section>
+      </div>
+      <div class="foot">
+        <span>Liwei ad agency　·　2026-10-03</span><span>4 / 5</span>
+      </div>
+    </section>
 
-      <section id="next">
-        <div class="todo">
-          <h3>還要一起確認的四件事，附我的建議</h3>
-          <ol>
+    <section class="page" id="rules">
+      <h2>對客戶的說法與待確認事項</h2>
+      <div class="two">
+        <div>
+          <h3>對客戶的統一說法</h3>
+          <ul class="list">
+            <li>不承諾名單筆數，並寫入報價單。</li>
             <li>
-              我向你請款的時間
-              <span>A 與 B 的建置費於廣告開始前請款；B 的基本操作費每月月初請款</span>
+              建議拍攝前簽約，影片才會照配比拍；拍完才加購也可以，價格相同。
             </li>
+            <li>C 需每月廣告費 5 萬以上，不到請選 A 或 B。</li>
             <li>
-              B 方案客戶中途終止的計費方式
-              <span>建置費不退；基本操作費已開始的月份照收，未開始的不收</span>
+              B 只做 Meta 廣告、一種詢問方式；要加 Google 搜尋廣告請選 C。
             </li>
-            <li>
-              C 介紹費的給付時間
-              <span>客戶付清前三個月廣告服務費後一次給付</span>
-            </li>
-            <li>
-              客戶緊急狀況的聯絡方式
-              <span>你收到後直接傳訊息給我，我當日回覆處理方式</span>
-            </li>
-          </ol>
+            <li>名單由客戶自己回覆，越快越容易成交。</li>
+          </ul>
         </div>
-      </section>
-
-      <footer>Liwei ad agency　·　2026-10-03</footer>
-    </div>
+        <div id="next">
+          <h3>還要一起確認的四件事（附我的建議）</h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>請款時間</td>
+                <td>建置費與帳號設定費於廣告開始前付清，未收到不開跑；B 的操作費每月月初</td>
+              </tr>
+              <tr>
+                <td>B 中途終止</td>
+                <td>建置費不退，操作費已開始的月份照收</td>
+              </tr>
+              <tr>
+                <td>C 介紹費</td>
+                <td>客戶付清前三個月廣告服務費後一次給</td>
+              </tr>
+              <tr>
+                <td>緊急狀況</td>
+                <td>你傳訊息給我，我當日回覆</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="cols docs gap" id="docs">
+        <a href="https://liiiiwei.github.io/ad-onboarding/client-form.html">
+          <b>客戶資料表 →</b>
+          <span>簽約後、拍攝前填</span>
+        </a>
+        <a href="https://liiiiwei.github.io/ad-onboarding/script-checklist.html">
+          <b>腳本檢查表 →</b>
+          <span>安排腳本與拍攝時用</span>
+        </a>
+        <a href="https://liiiiwei.github.io/ad-onboarding/faq.html">
+          <b>常見問答 →</b>
+          <span>客戶問到廣告時照著回</span>
+        </a>
+      </div>
+      <div class="foot">
+        <span>Liwei ad agency　·　2026-10-03</span><span>5 / 5</span>
+      </div>
+    </section>
   </body>
 </html>
